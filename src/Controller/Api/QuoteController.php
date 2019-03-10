@@ -16,13 +16,28 @@ class QuoteController extends AbstractFOSRestController
      */
     public function createQuote(Request $request): View
     {
+        $referenceNumber = $request->get('referenceNumber', null);
+        $description = $request->get('description', null);
+        $premiumAmount = $request->get('premiumAmount', null);
+
+        if (!$referenceNumber
+            && !$description
+            && !$premiumAmount
+            && !is_numeric ($premiumAmount)) {
+            return View::create(['error' => 'invalid data'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (preg_match('/\d+[.]\d+/',$premiumAmount) ) {
+            $premiumAmount = (int)($premiumAmount * 100);
+        }
+
         // This is very very temp solution
         $entityManager = $this->getDoctrine()->getManager();
         $quote = new Quote();
 
-        $quote->setReferenceNumber($request->get('referenceNumber'));
-        $quote->setDescription($request->get('description'));
-        $quote->setPremiumAmount($request->get('premiumAmount'));
+        $quote->setReferenceNumber($referenceNumber);
+        $quote->setDescription($description);
+        $quote->setPremiumAmount($premiumAmount);
         $quote->setDateCreated(new \DateTime());
 
         $entityManager->persist($quote);
