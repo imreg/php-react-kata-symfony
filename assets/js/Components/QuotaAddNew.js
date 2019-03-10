@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {withStyles} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
@@ -44,9 +43,9 @@ class QuotaAddNew extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            referenceNumber: '',
-            description: '',
-            premiumAmount: 0
+            referenceNumber: null,
+            description: null,
+            premiumAmount: null
         }
     }
 
@@ -80,9 +79,9 @@ class QuotaAddNew extends React.Component {
             .then(res => console.log(res.data));
 
         this.setState({
-            referenceNumber: '',
-            description: '',
-            premiumAmount: 0,
+            referenceNumber: null,
+            description: null,
+            premiumAmount: null,
             state: this.state
         });
     }

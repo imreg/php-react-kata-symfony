@@ -8,6 +8,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class QuoteFixtures extends Fixture
 {
+    /**
+     * @param ObjectManager $manager
+     * @throws \Exception
+     */
     public function load(ObjectManager $manager)
     {
         $quote = new Quote();

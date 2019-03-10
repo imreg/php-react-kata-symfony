@@ -20,14 +20,14 @@ class QuoteController extends AbstractFOSRestController
         $description = $request->get('description', null);
         $premiumAmount = $request->get('premiumAmount', null);
 
-        if (!$referenceNumber
-            && !$description
-            && !$premiumAmount
-            && !is_numeric ($premiumAmount)) {
+        if (empty($referenceNumber)
+            && empty($description)
+            && $premiumAmount === null
+            && !is_numeric($premiumAmount)) {
             return View::create(['error' => 'invalid data'], Response::HTTP_BAD_REQUEST);
         }
 
-        if (preg_match('/\d+[.]\d+/',$premiumAmount) ) {
+        if (preg_match('/\d+[.]\d+/', $premiumAmount)) {
             $premiumAmount = (int)($premiumAmount * 100);
         }
 
