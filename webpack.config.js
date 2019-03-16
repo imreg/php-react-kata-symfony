@@ -8,7 +8,7 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
-    .addEntry('app', './assets/js/app.js')
+    .addEntry('quota', './assets/js/quota.js')
     .enableReactPreset();
 
 module.exports = Encore.getWebpackConfig();
