@@ -7,15 +7,20 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 import TodoTableRows from './QuotaTableRows';
+
 import {connect} from 'react-redux';
 
 const styles = (theme) => ({
     root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-        overflowX: 'auto',
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
     },
     table: {
         minWidth: 700,
@@ -23,7 +28,7 @@ const styles = (theme) => ({
 });
 
 function mapStateToProps(state) {
-     return {records: state.records};
+    return {records: state.records};
 }
 
 class QuotaTable extends Component {
@@ -33,30 +38,40 @@ class QuotaTable extends Component {
 
     tabRow() {
         return this.props.records.map(function (object, i) {
-             return <TodoTableRows obj={object} key={i}/>;
+            return <TodoTableRows obj={object} key={i}/>;
         });
     }
 
     render() {
         return (
-            <Paper className={styles.root}>
-                <Table className={styles.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Id</TableCell>
-                            <TableCell align="right">Reference Number</TableCell>
-                            <TableCell align="right">Description</TableCell>
-                            <TableCell align="right">Premium Amount</TableCell>
-                            <TableCell align="right">Created</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.tabRow()}
-                    </TableBody>
-                </Table>
-            </Paper>
+                <Grid container spacing={24}>
+                    <Grid item xs={12}>
+                        <Paper className={styles.paper}>
+                            <Table className={styles.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell></TableCell>
+                                        <TableCell>Id</TableCell>
+                                        <TableCell align="right">Reference Number</TableCell>
+                                        <TableCell align="right">Description</TableCell>
+                                        <TableCell align="right">Premium Amount</TableCell>
+                                        <TableCell align="right">Created</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.tabRow()}
+                                </TableBody>
+                            </Table>
+                        </Paper>
+                    </Grid>
+                </Grid>
         );
     }
 }
 
-export default connect(mapStateToProps, null)(QuotaTable);
+QuotaTable.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+
+export default withStyles(styles)(connect(mapStateToProps, null)(QuotaTable));

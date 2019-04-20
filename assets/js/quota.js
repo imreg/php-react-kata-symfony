@@ -9,10 +9,16 @@ import QuotaAddNew from "./Components/Quota/QuotaAddNew";
 const store = configureStore();
 store.dispatch(action.fetchAllRecords());
 
+const styles = (theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+});
+
 class Quota extends Component {
     render() {
         return (
-            <div>
+            <div className={styles.root}>
                 <QuotaTable />
                 <QuotaAddNew />
             </div>
@@ -21,7 +27,7 @@ class Quota extends Component {
 }
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Quota/>
-    </Provider>
-    , document.getElementById("quota"));
+     <Provider store={store}>
+         <Quota/>
+     </Provider>
+     , document.getElementById("quota"));
