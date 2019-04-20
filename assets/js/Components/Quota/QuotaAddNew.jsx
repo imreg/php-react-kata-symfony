@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import axios from 'axios';
+import React, {Component} from "react";
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import {connect} from 'react-redux';
 
+import Grid from '@material-ui/core/Grid';
+
+import {connect} from 'react-redux';
 import {addRecord} from '../../Redux/Actions/index';
 
 
 const styles = theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
+    root: {
+        flexGrow: 1,
     },
     input: {
         margin: theme.spacing.unit,
@@ -37,9 +37,9 @@ const styles = theme => ({
 });
 
 function mapDispatchToProps(dispatch) {
-      return {
-          addRecord: records => dispatch(addRecord(records))
-      };
+    return {
+        addRecord: records => dispatch(addRecord(records))
+    };
 }
 
 class QuotaAddNew extends Component {
@@ -98,71 +98,83 @@ class QuotaAddNew extends Component {
 
     render() {
         return (
-            <div className={styles.container}>
-                <h3>New Item</h3>
+            <div>
                 <form>
-                    <FormControl className={styles.margin}>
-                        <InputLabel
-                            htmlFor="custom-css-standard-input"
-                            classes={{
-                                root: styles.cssLabel,
-                                focused: styles.cssFocused,
-                            }}
-                        >
-                            Reference Number
-                        </InputLabel>
-                        <Input
-                            id="custom-css-standard-input"
-                            classes={{
-                                underline: styles.cssUnderline,
-                            }}
-                            onChange={this.onChangeReferenceNumber}
-                            value={this.state.referenceNumber}
-                        />
-                    </FormControl>
-                    <FormControl className={styles.margin}>
-                        <InputLabel
-                            htmlFor="custom-css-standard-input"
-                            classes={{
-                                root: styles.cssLabel,
-                                focused: styles.cssFocused,
-                            }}
-                        >
-                            Description
-                        </InputLabel>
-                        <Input
-                            id="custom-css-standard-input"
-                            classes={{
-                                underline: styles.cssUnderline,
-                            }}
-                            onChange={this.onChangeDescription}
-                            value={this.state.description}
-                        />
-                    </FormControl>
-                    <FormControl className={styles.margin}>
-                        <InputLabel
-                            htmlFor="custom-css-standard-input"
-                            classes={{
-                                root: styles.cssLabel,
-                                focused: styles.cssFocused,
-                            }}
-                        >
-                            Premium Amount
-                        </InputLabel>
-                        <Input
-                            id="custom-css-standard-input"
-                            classes={{
-                                underline: styles.cssUnderline,
-                            }}
-                            onChange={this.onChangePremiumAmount}
-                            value={this.state.premiumAmount}
-                        />
-                    </FormControl>
-                    <Button variant="contained" size="small" color="primary"
-                            className={styles.button}
-                            onClick={this.onSubmit}>
-                        Add
-                    </Button>
+                    <Grid container spacing={24}>
+                        <Grid item xs={12}>
+                            <h3>New Item</h3>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <FormControl className={styles.margin}>
+                                <InputLabel
+                                    htmlFor="custom-css-standard-input"
+                                    classes={{
+                                        root: styles.cssLabel,
+                                        focused: styles.cssFocused,
+                                    }}
+                                >
+                                    Reference Number
+                                </InputLabel>
+                                <Input
+                                    id="custom-css-standard-input"
+                                    classes={{
+                                        underline: styles.cssUnderline,
+                                    }}
+                                    onChange={this.onChangeReferenceNumber}
+                                    value={this.state.referenceNumber}
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <FormControl className={styles.margin}>
+                                <InputLabel
+                                    htmlFor="custom-css-standard-input"
+                                    classes={{
+                                        root: styles.cssLabel,
+                                        focused: styles.cssFocused,
+                                    }}
+                                >
+                                    Description
+                                </InputLabel>
+                                <Input
+                                    id="custom-css-standard-input"
+                                    classes={{
+                                        underline: styles.cssUnderline,
+                                    }}
+                                    onChange={this.onChangeDescription}
+                                    value={this.state.description}
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <FormControl className={styles.margin}>
+                                <InputLabel
+                                    htmlFor="custom-css-standard-input"
+                                    classes={{
+                                        root: styles.cssLabel,
+                                        focused: styles.cssFocused,
+                                    }}
+                                >
+                                    Premium Amount
+                                </InputLabel>
+                                <Input
+                                    id="custom-css-standard-input"
+                                    classes={{
+                                        underline: styles.cssUnderline,
+                                    }}
+                                    onChange={this.onChangePremiumAmount}
+                                    value={this.state.premiumAmount}
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <Button variant="contained" size="small" color="primary"
+                                    className={styles.button}
+                                    onClick={this.onSubmit}>
+                                Add
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         );
