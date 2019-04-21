@@ -3,6 +3,7 @@
 
 namespace App\Application\Service\Interfaces;
 
+use App\Application\DataTransfer\QuoteDataTransfer;
 use App\Entity\Quote;
 
 /**
@@ -24,30 +25,20 @@ interface QuoteServiceInterface
     public function quotes(): ?array;
 
     /**
-     * @param string $referenceNumber
-     * @param string $description
-     * @param string $premiumAmount
+     * @param QuoteDataTransfer $quoteDataTransfer
      * @return Quote
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function addQuote(string $referenceNumber, string $description, string $premiumAmount): Quote;
+    public function addQuote(QuoteDataTransfer $quoteDataTransfer): ?Quote;
 
     /**
      * @param int $id
-     * @param string $referenceNumber
-     * @param string $description
-     * @param string $premiumAmount
+     * @param QuoteDataTransfer $quoteDataTransfer
      * @return Quote
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateQuote(int $id, string $referenceNumber, string $description, string $premiumAmount): Quote;
+    public function updateQuote(int $id, QuoteDataTransfer $quoteDataTransfer): ?Quote;
 
     /**
      * @param int $id
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(int $id): void;
 }

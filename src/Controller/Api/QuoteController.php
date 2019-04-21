@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Application\DataTransfer\QuoteDataTransfer;
 use App\Application\Service\QuoteService;
 use App\Entity\Quote;
 use FOS\RestBundle\View\View;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class QuoteController extends AbstractFOSRestController
 {
@@ -18,6 +21,10 @@ class QuoteController extends AbstractFOSRestController
      */
     private $quoteService;
 
+    /**
+     * QuoteController constructor.
+     * @param QuoteService $quoteService
+     */
     public function __construct(QuoteService $quoteService)
     {
         $this->quoteService = $quoteService;
@@ -25,43 +32,57 @@ class QuoteController extends AbstractFOSRestController
 
     /**
      * @Rest\Post("/quotes")
+     * @ParamConverter("quoteDataTransfer",
+     *     converter="fos_rest.request_body",
+     *     options={"validator"={"groups"={"quoteGroup"}}})
+     *
+     * @param QuoteDataTransfer $quoteDataTransfer
+     * @param ConstraintViolationListInterface $validationErrors
+     * @return View
      */
-    public function postQuotes(Request $request): View
-    {
-        $referenceNumber = $request->get('referenceNumber', null);
-        $description = $request->get('description', null);
-        $premiumAmount = $request->get('premiumAmount', null);
+    public function postQuotes(
+        QuoteDataTransfer $quoteDataTransfer,
+        ConstraintViolationListInterface $validationErrors
+    ): View {
 
-        if (empty($referenceNumber)
-            && empty($description)
-            && $premiumAmount === null
-            && !is_numeric($premiumAmount)) {
-            return View::create(['error' => 'invalid data'], Response::HTTP_BAD_REQUEST);
+        if (count($validationErrors) > 0) {
+            $message = [];
+            foreach ($validationErrors as $error) {
+                $message[] = $error->getMessage();
+            }
+            return View::create(['error' => $message], Response::HTTP_NO_CONTENT);
         }
 
-        $quote = $this->quoteService->addQuote($referenceNumber, $description, $premiumAmount);
-
+        $quote = $this->quoteService->addQuote($quoteDataTransfer);
         return View::create($quote, Response::HTTP_CREATED);
     }
 
     /**
      * Replaces Quotes resource
      * @Rest\Put("/quotes/{id}")
+     * @ParamConverter("quoteDataTransfer",
+     *     converter="fos_rest.request_body",
+     *     options={"validator"={"groups"={"quoteGroup"}}})
+     *
+     * @param int $id
+     * @param QuoteDataTransfer $quoteDataTransfer
+     * @param ConstraintViolationListInterface $validationErrors
+     * @return View
      */
-    public function putQuotes(Request $request): View
-    {
-        $referenceNumber = $request->get('referenceNumber', null);
-        $description = $request->get('description', null);
-        $premiumAmount = $request->get('premiumAmount', null);
-
-        $id = $request->get('id', null);
-        $quote = $this->quoteService->updateQuote($id, $referenceNumber, $description, $premiumAmount);
+    public function putQuotes(
+        int $id,
+        QuoteDataTransfer $quoteDataTransfer,
+        ConstraintViolationListInterface $validationErrors
+    ): View {
+        $quote = $this->quoteService->updateQuote($id, $quoteDataTransfer);
         return View::create($quote, Response::HTTP_OK);
     }
 
     /**
      * Replaces Quotes resource
      * @Rest\Put("/quotes/{id}")
+     * @param Request $request
+     * @return View
      */
     public function deleteQuotes(Request $request): View
     {

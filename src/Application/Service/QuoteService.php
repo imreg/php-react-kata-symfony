@@ -2,9 +2,11 @@
 
 namespace App\Application\Service;
 
+use App\Application\DataTransfer\QuoteDataTransfer;
 use App\Application\Service\Interfaces\QuoteServiceInterface;
 use App\Entity\Quote;
 use App\Repository\Interfaces\QuoteRepositoryInterface;
+use Doctrine\ORM\ORMException;
 
 /**
  * Class QuoteService
@@ -45,21 +47,13 @@ final class QuoteService implements QuoteServiceInterface
     /**
      * @inheritDoc
      */
-    public function addQuote(
-        string $referenceNumber = null,
-        string $description = null,
-        string $premiumAmount = null
-    ): Quote {
-
-        if (preg_match('/\d+[.]\d+/', $premiumAmount)) {
-            $premiumAmount = (int)($premiumAmount * 100);
-        }
-
+    public function addQuote(QuoteDataTransfer $quoteDataTransfer): ?Quote
+    {
         $quote = new Quote();
 
-        $quote->setReferenceNumber($referenceNumber);
-        $quote->setDescription($description);
-        $quote->setPremiumAmount($premiumAmount);
+        $quote->setReferenceNumber($quoteDataTransfer->getReferenceNumber());
+        $quote->setDescription($quoteDataTransfer->getDescription());
+        $quote->setPremiumAmount($quoteDataTransfer->getPremiumAmount());
         $quote->setDateCreated(new \DateTime());
 
         $this->quoteRepository->save($quote);
@@ -70,16 +64,17 @@ final class QuoteService implements QuoteServiceInterface
     /**
      * @inheritDoc
      */
-    public function updateQuote(int $id, string $referenceNumber, string $description, string $premiumAmount): Quote
+    public function updateQuote(int $id, QuoteDataTransfer $quoteDataTransfer): ?Quote
     {
         $quote = $this->oneQuote($id);
+
         if (!$quote === null) {
             return null;
         }
 
-        $quote->setReferenceNumber($referenceNumber);
-        $quote->setDescription($description);
-        $quote->setPremiumAmount($premiumAmount);
+        $quote->setReferenceNumber($quoteDataTransfer->getReferenceNumber());
+        $quote->setDescription($quoteDataTransfer->getDescription());
+        $quote->setPremiumAmount($quoteDataTransfer->getPremiumAmount());
         $quote->setDateCreated(new \DateTime());
 
         $this->quoteRepository->save($quote);
