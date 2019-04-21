@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import * as action from './Redux/Actions/index'
 import configureStore from "./Redux/Store/index";
 import QuotaTable from './Components/Quota/QuotaTable'
@@ -19,15 +19,15 @@ class Quota extends Component {
     render() {
         return (
             <div className={styles.root}>
-                <QuotaTable />
-                <QuotaAddNew />
+                <QuotaTable/>
+                <QuotaAddNew/>
             </div>
         )
     }
 }
 
 ReactDOM.render(
-     <Provider store={store}>
-         <Quota/>
-     </Provider>
-     , document.getElementById("quota"));
+    <Provider store={store}>
+        <Quota/>
+    </Provider>
+    , document.getElementById("quota"));
