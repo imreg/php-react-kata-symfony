@@ -80,7 +80,7 @@ class QuoteController extends AbstractFOSRestController
 
     /**
      * Replaces Quotes resource
-     * @Rest\Put("/quotes/{id}")
+     * @Rest\Delete("/quotes/{id}")
      * @param Request $request
      * @return View
      */
@@ -102,6 +102,8 @@ class QuoteController extends AbstractFOSRestController
 
     /**
      * @Rest\Get("/quotes/{id}")
+     * @param Request $request
+     * @return View
      */
     public function getQuote(Request $request): View
     {
